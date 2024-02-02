@@ -1,0 +1,50 @@
+depends('mkdir')
+depends('strip')
+depends('gcc')
+depends('./src/entry/main.c')
+depends('./src/input/input.c')
+depends('./src/input/input.h')
+depends('./src/lexer/lexer.c')
+depends('./src/lexer/lexer.h')
+depends('./src/token/token.h')
+depends('./src/token_type/token_type.h')
+
+[compiler]:
+    compiler = 'gcc'
+
+[sources]:
+    0 = './src/entry/main.c'
+    1 = './src/input/input.c'
+    2 = './src/lexer/lexer.c'
+
+[output]:
+    release = ['-o', './bin/calcy']
+    debug = ['-o', './bin/calcy_debug']
+
+[flags]:
+    release = ['-O3', '-DNDEBUG', '-masm=intel', '-mtune=native', '-march=native']
+    debug = ['-Wall', '-g', '-ggdb3']
+
+[make_dir]:
+    cmd = ['mkdir', '-p', './bin']
+
+[strip]:
+    cmd = ['strip', './bin/calcy']
+
+[release]:
+    compiler()
+    flags()[0]
+    sources()
+    output()[0]
+    
+[debug]:
+    compiler()
+    flags()[1]
+    sources()
+    output()[1]
+
+[all]:
+    make_dir()
+    release()
+    debug()
+    strip()
