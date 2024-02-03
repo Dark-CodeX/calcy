@@ -7,8 +7,8 @@
 typedef struct token{
     char *M_lexeme;
     calcy_token_type M_type;
-    size_t start;
-    size_t end;
+    size_t M_start;
+    size_t M_end;
 } calcy_token;
 
 #endif
