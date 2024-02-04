@@ -13,7 +13,7 @@ typedef struct lexer
     calcy_token *M_tokens;
     size_t M_token_len, M_token_cap;
 
-    size_t M_lexer_index;
+    size_t M_current_lexer;
     const char *M_src;
 
 } calcy_lexer;
