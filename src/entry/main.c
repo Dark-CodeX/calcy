@@ -6,24 +6,38 @@
 
 int main(int argc, char **argv)
 {
-    size_t expr_length;
-    char *expr = calcy_input(&expr_length);
-    if (!expr)
+    while (true)
     {
-        fprintf(stderr, "%s: error: cannot get user input due to memory issue\n", argv[0]);
-        return EXIT_FAILURE;
-    }
+        printf("> ");
+        size_t expr_length;
+        char *expr = calcy_input(&expr_length);
+        if (!expr)
+        {
+            fprintf(stderr, "%s: error: cannot get user input due to memory issue\n", argv[0]);
+            return EXIT_FAILURE;
+        }
+        if (strcmp(expr, "exit") == 0)
+            break;
 
-    calcy_lexer *lexer = calloc(1, sizeof(calcy_lexer));
-    if (!calcy_lexer_init(lexer))
-    {
-        fprintf(stderr, "%s: error: cannot allocate memory on heap section\n", argv[0]);
-        return EXIT_FAILURE;
-    }
-    calcy_lexer_assign_source(lexer, expr);
-    calcy_lexer_scan_tokens(lexer);
-    lex_print(lexer);
-    calcy_lexer_free(lexer);
+        calcy_lexer *lexer = calloc(1, sizeof(calcy_lexer));
+        if (!calcy_lexer_init(lexer))
+        {
+            fprintf(stderr, "%s: error: cannot allocate memory on heap section\n", argv[0]);
+            return EXIT_FAILURE;
+        }
+        calcy_lexer_assign_source(lexer, expr);
+        calcy_lexer_scan_tokens(lexer);
 
+        calcy_parser *parser = calloc(1, sizeof(calcy_parser));
+        if (!calcy_parser_init(parser, lexer->M_tokens))
+        {
+            fprintf(stderr, "%s: error: cannot allocate memory on heap section\n", argv[0]);
+            return EXIT_FAILURE;
+        }
+        DATA_TYPE result = calcy_parser_perform(parser);
+        printf("%.16Lg\n", result);
+        free(parser);
+        calcy_lexer_free(lexer);
+    }
     return EXIT_SUCCESS;
 }
