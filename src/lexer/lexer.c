@@ -94,6 +94,11 @@ bool calcy_lexer_scan_tokens(calcy_lexer *lexer)
             lexer->M_current_lexer++;
             break;
 
+        case '^':
+            calcy_lexer_add_token(lexer, &ch, 1, TOKEN_OPERATOR_EXPONENTIAL, lexer->M_current_lexer, lexer->M_current_lexer + 1);
+            lexer->M_current_lexer++;
+            break;
+
         case '(':
             calcy_lexer_add_token(lexer, &ch, 1, TOKEN_LEFT_PAREN, lexer->M_current_lexer, lexer->M_current_lexer + 1);
             lexer->M_current_lexer++;
@@ -163,21 +168,4 @@ void calcy_lexer_free(calcy_lexer *lexer)
     lexer->M_token_len = 0;
     lexer->M_token_cap = 0;
     free(lexer);
-}
-
-void lex_print(const calcy_lexer *lexer)
-{
-    const char *pp[] = {
-        "TOKEN_NUMBER",
-        "TOKEN_OPERATOR_ADD",
-        "TOKEN_OPERATOR_SUBSTRACT",
-        "TOKEN_OPERATOR_MULTIPLY",
-        "TOKEN_OPERATOR_DIVIDE",
-        "TOKEN_RIGHT_PAREN",
-        "TOKEN_LEFT_PAREN",
-        "TOKEN_EOF"};
-    for (size_t i = 0; i < lexer->M_token_len; i++)
-    {
-        printf("'%s' : %s : %zu : %zu\n", lexer->M_tokens[i].M_lexeme, pp[lexer->M_tokens[i].M_type], lexer->M_tokens[i].M_start, lexer->M_tokens[i].M_end);
-    }
 }
