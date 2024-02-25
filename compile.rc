@@ -1,6 +1,12 @@
-depends('mkdir')
-depends('strip')
-depends('gcc')
+if os != 'windows'
+    depends('mkdir')
+    depends('strip')
+endif
+if os == 'windows'
+    depends('gcc.exe')
+else
+    depends('gcc')
+endif
 depends('./src/entry/main.c')
 depends('./src/input/input.c')
 depends('./src/input/input.h')
@@ -8,6 +14,8 @@ depends('./src/lexer/lexer.c')
 depends('./src/lexer/lexer.h')
 depends('./src/token/token.h')
 depends('./src/token_type/token_type.h')
+depends('./src/parser/parser.c')
+depends('./src/parser/parser.h')
 
 [compiler]:
     compiler = 'gcc'
@@ -16,20 +24,23 @@ depends('./src/token_type/token_type.h')
     0 = './src/entry/main.c'
     1 = './src/input/input.c'
     2 = './src/lexer/lexer.c'
+    3 = './src/parser/parser.c'
 
 [output]:
     release = ['-o', './bin/calcy']
     debug = ['-o', './bin/calcy_debug']
 
 [flags]:
-    release = ['-O3', '-std=c17', '-DNDEBUG', '-masm=intel', '-mtune=native', '-march=native']
-    debug = ['-Wall', '-std=c17', '-g', '-ggdb3']
+    release = ['-O3', '-std=c17', '-lm', '-DNDEBUG', '-masm=intel', '-mtune=native', '-march=native']
+    debug = ['-Wall', '-std=c17', '-lm', '-g', '-ggdb3']
 
-[make_dir]:
-    cmd = ['mkdir', '-p', './bin']
+if os != 'windows'
+    [make_dir]:
+        cmd = ['mkdir', '-p', './bin']
 
-[strip]:
-    cmd = ['strip', './bin/calcy']
+    [strip]:
+        cmd = ['strip', './bin/calcy']
+endif
 
 [release]:
     compiler()
@@ -44,7 +55,11 @@ depends('./src/token_type/token_type.h')
     output()[1]
 
 [all]:
-    make_dir()
+    if os != 'windows'
+        make_dir()
+    endif
     release()
     debug()
-    strip()
+    if os != 'windows'
+        strip()
+    endif
