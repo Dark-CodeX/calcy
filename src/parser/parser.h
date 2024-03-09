@@ -1,11 +1,14 @@
 #ifndef CALCY_PARSER_H
 #define CALCY_PARSER_H
 
+#undef __STRICT_ANSI__
+
 #include "../token/token.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <stdio.h>
 
 typedef struct parser
 {
@@ -15,11 +18,13 @@ typedef struct parser
 
 typedef long double DATA_TYPE;
 
-bool calcy_parser_init(calcy_parser *parser, const calcy_token *toks);
+bool calcy_parser_init(calcy_parser *parser, const calcy_token *toks_start);
 DATA_TYPE calcy_parser_perform(calcy_parser *parser);
 DATA_TYPE calcy_parser_expr(calcy_parser *parser);
 DATA_TYPE calcy_parser_term(calcy_parser *parser);
 DATA_TYPE calcy_parser_expo(calcy_parser *parser);
+DATA_TYPE calcy_parser_functions(calcy_parser *parser);
+DATA_TYPE calcy_parser_brackets(calcy_parser *parser);
 DATA_TYPE calcy_parser_factor(calcy_parser *parser);
 
 #endif
