@@ -108,10 +108,19 @@ bool calcy_lexer_scan_tokens(calcy_lexer *lexer)
             calcy_lexer_add_token(lexer, &ch, 1, TOKEN_RIGHT_PAREN, lexer->M_current_lexer, lexer->M_current_lexer + 1);
             lexer->M_current_lexer++;
             break;
+
+        case '=':
+            calcy_lexer_add_token(lexer, &ch, 1, TOKEN_EQUAL_TO, lexer->M_current_lexer, lexer->M_current_lexer + 1);
+            lexer->M_current_lexer++;
+            break;
         default:
             if (isdigit(ch) || ch == '.')
             {
                 calcy_lexer_scan_numbers(lexer);
+            }
+            else if (isalpha(ch))
+            {
+                calcy_lexer_scan_alpha(lexer);
             }
             else
                 lexer->M_current_lexer++;
@@ -151,6 +160,18 @@ bool calcy_lexer_scan_numbers(calcy_lexer *lexer)
         }
     }
     calcy_lexer_add_token(lexer, lexer->M_src + pos_start, lexer->M_current_lexer - pos_start, TOKEN_NUMBER, pos_start, lexer->M_current_lexer);
+    return true;
+}
+
+bool calcy_lexer_scan_alpha(calcy_lexer *lexer)
+{
+    size_t pos_start = lexer->M_current_lexer;
+    char ch = lexer->M_src[lexer->M_current_lexer];
+    while (isalpha(ch))
+    {
+        ch = lexer->M_src[++lexer->M_current_lexer];
+    }
+    calcy_lexer_add_token(lexer, lexer->M_src + pos_start, lexer->M_current_lexer - pos_start, TOKEN_ALPHA, pos_start, lexer->M_current_lexer);
     return true;
 }
 
