@@ -16,6 +16,8 @@ depends('./src/token/token.h')
 depends('./src/token_type/token_type.h')
 depends('./src/parser/parser.c')
 depends('./src/parser/parser.h')
+depends('./src/math/math.c')
+depends('./src/math/math.h')
 
 [compiler]:
     compiler = 'gcc'
@@ -25,6 +27,7 @@ depends('./src/parser/parser.h')
     1 = './src/input/input.c'
     2 = './src/lexer/lexer.c'
     3 = './src/parser/parser.c'
+    4 = './src/math/math.c'
 
 [output]:
     release = ['-o', './bin/calcy']
