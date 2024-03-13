@@ -4,6 +4,7 @@
 #undef __STRICT_ANSI__
 
 #include "../token/token.h"
+#include "../math/math.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <math.h>
@@ -16,7 +17,12 @@ typedef struct parser
     size_t M_current_parser;
 } calcy_parser;
 
+#ifndef LDTYPE_DEF
+#define LDTYPE_DEF
 typedef long double DATA_TYPE;
+#endif
+
+static DATA_TYPE RESULT_STATIC;
 
 bool calcy_parser_init(calcy_parser *parser, const calcy_token *toks_start);
 DATA_TYPE calcy_parser_perform(calcy_parser *parser);
