@@ -13,7 +13,8 @@ DATA_TYPE calcy_parser_perform(calcy_parser *parser)
 {
     if (!parser)
         return INFINITY;
-    return calcy_parser_expr(parser);
+    RESULT_STATIC = calcy_parser_expr(parser);
+    return RESULT_STATIC;
 }
 
 DATA_TYPE calcy_parser_expr(calcy_parser *parser)
@@ -77,10 +78,22 @@ DATA_TYPE calcy_parser_functions(calcy_parser *parser)
         while (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_ALPHA)
         {
             const char *function_name = parser->M_tokens[parser->M_current_parser++].M_lexeme;
-            DATA_TYPE in_val = calcy_parser_brackets(parser);
             if (strcmp(function_name, "sin") == 0)
             {
+                DATA_TYPE in_val = calcy_parser_brackets(parser);
                 return sinl(in_val);
+            }
+            else if (strcmp(function_name, "ans") == 0 || strcmp(function_name, "ANS") == 0)
+            {
+                return RESULT_STATIC;
+            }
+            else if (strcmp(function_name, "inf") == 0 || strcmp(function_name, "INF") == 0)
+            {
+                return INFINITY;
+            }
+            else if (strcmp(function_name, "nan") == 0 || strcmp(function_name, "nan") == 0)
+            {
+                return NAN;
             }
             else if (strcmp(function_name, "e") == 0)
             {
@@ -92,11 +105,18 @@ DATA_TYPE calcy_parser_functions(calcy_parser *parser)
             }
             else if (strcmp(function_name, "sqrt") == 0)
             {
+                DATA_TYPE in_val = calcy_parser_brackets(parser);
                 return sqrtl(in_val);
             }
             else if (strcmp(function_name, "cbrt") == 0)
             {
+                DATA_TYPE in_val = calcy_parser_brackets(parser);
                 return cbrtl(in_val);
+            }
+            else if (strcmp(function_name, "fact") == 0)
+            {
+                DATA_TYPE in_val = calcy_parser_brackets(parser);
+                return factorial(in_val);
             }
         }
     }
