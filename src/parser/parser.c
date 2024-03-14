@@ -64,7 +64,11 @@ DATA_TYPE calcy_parser_expo(calcy_parser *parser)
     while (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_OPERATOR_EXPONENTIAL)
     {
         parser->M_current_parser++;
-        res = powl(res, calcy_parser_functions(parser));
+        DATA_TYPE __power_expo = calcy_parser_functions(parser);
+        if (res == (size_t)res && __power_expo == (size_t)__power_expo)
+            res = fast_pow(res, __power_expo);
+        else
+            res = powl(res, __power_expo);
     }
     return res;
 }

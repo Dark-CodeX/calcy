@@ -10,5 +10,6 @@ typedef long double DATA_TYPE;
 #endif
 
 DATA_TYPE factorial(DATA_TYPE num);
+DATA_TYPE fast_pow(DATA_TYPE num, size_t expo);
 
 #endif
