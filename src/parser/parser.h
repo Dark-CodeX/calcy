@@ -22,6 +22,11 @@ typedef struct parser
 typedef long double DATA_TYPE;
 #endif
 
+#ifndef CONST_TOLERANCE_LEVEL
+#define CONST_TOLERANCE_LEVEL
+static const DATA_TYPE TOLERANCE_LEVEL = 1e-10;
+#endif
+
 static DATA_TYPE RESULT_STATIC;
 
 bool calcy_parser_init(calcy_parser *parser, const calcy_token *toks_start);

@@ -84,8 +84,36 @@ DATA_TYPE calcy_parser_functions(calcy_parser *parser)
             const char *function_name = parser->M_tokens[parser->M_current_parser++].M_lexeme;
             if (strcmp(function_name, "sin") == 0)
             {
-                DATA_TYPE in_val = calcy_parser_brackets(parser);
-                return sinl(in_val);
+                DATA_TYPE ret_val = sinl(calcy_parser_brackets(parser));
+                return (fabsl(ret_val) > TOLERANCE_LEVEL ? ret_val : 0);
+            }
+            else if (strcmp(function_name, "cos") == 0)
+            {
+                DATA_TYPE ret_val = cosl(calcy_parser_brackets(parser));
+                return (fabsl(ret_val) > TOLERANCE_LEVEL ? ret_val : 0);
+            }
+            else if (strcmp(function_name, "tan") == 0)
+            {
+                DATA_TYPE ret_val = tanl(calcy_parser_brackets(parser));
+                return (fabsl(ret_val) > TOLERANCE_LEVEL ? ret_val : 0);
+            }
+            else if (strcmp(function_name, "cot") == 0)
+            {
+                DATA_TYPE x = tanl(calcy_parser_brackets(parser));
+                DATA_TYPE ret_val = 1 / (fabsl(x) > TOLERANCE_LEVEL ? x : 0);
+                return (fabsl(ret_val) > TOLERANCE_LEVEL ? ret_val : 0);
+            }
+            else if (strcmp(function_name, "sec") == 0)
+            {
+                DATA_TYPE x = cosl(calcy_parser_brackets(parser));
+                DATA_TYPE ret_val = 1 / (fabsl(x) > TOLERANCE_LEVEL ? x : 0);
+                return (fabsl(ret_val) > TOLERANCE_LEVEL ? ret_val : 0);
+            }
+            else if (strcmp(function_name, "cosec") == 0 || strcmp(function_name, "csc") == 0)
+            {
+                DATA_TYPE x = sinl(calcy_parser_brackets(parser));
+                DATA_TYPE ret_val = 1 / (fabsl(x) > TOLERANCE_LEVEL ? x : 0);
+                return (fabsl(ret_val) > TOLERANCE_LEVEL ? ret_val : 0);
             }
             else if (strcmp(function_name, "ans") == 0 || strcmp(function_name, "ANS") == 0)
             {
@@ -109,18 +137,15 @@ DATA_TYPE calcy_parser_functions(calcy_parser *parser)
             }
             else if (strcmp(function_name, "sqrt") == 0)
             {
-                DATA_TYPE in_val = calcy_parser_brackets(parser);
-                return sqrtl(in_val);
+                return sqrtl(calcy_parser_brackets(parser));
             }
             else if (strcmp(function_name, "cbrt") == 0)
             {
-                DATA_TYPE in_val = calcy_parser_brackets(parser);
-                return cbrtl(in_val);
+                return cbrtl(calcy_parser_brackets(parser));
             }
             else if (strcmp(function_name, "fact") == 0)
             {
-                DATA_TYPE in_val = calcy_parser_brackets(parser);
-                return factorial(in_val);
+                return factorial(calcy_parser_brackets(parser));
             }
         }
     }
