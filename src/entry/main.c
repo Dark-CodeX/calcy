@@ -18,6 +18,8 @@ int main(int argc, char **argv)
         }
         if (strcmp(expr, "exit") == 0)
             break;
+        else if (strcmp(expr, "") == 0)
+            continue;
 
         calcy_lexer *lexer = calloc(1, sizeof(calcy_lexer));
         if (!calcy_lexer_init(lexer))
