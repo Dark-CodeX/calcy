@@ -38,20 +38,32 @@ DATA_TYPE calcy_parser_term(calcy_parser *parser)
 {
     if (!parser)
         return INFINITY;
-    DATA_TYPE res = calcy_parser_expo(parser);
+    DATA_TYPE res = calcy_parser_implicit_mul(parser);
     while (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_OPERATOR_MULTIPLY || parser->M_tokens[parser->M_current_parser].M_type == TOKEN_OPERATOR_DIVIDE)
     {
         calcy_token_type curr_type = parser->M_tokens[parser->M_current_parser].M_type;
         parser->M_current_parser++;
         if (curr_type == TOKEN_OPERATOR_MULTIPLY)
-            res *= calcy_parser_expo(parser);
+            res *= calcy_parser_implicit_mul(parser);
         else
         {
-            DATA_TYPE divisor = calcy_parser_expo(parser);
+            DATA_TYPE divisor = calcy_parser_implicit_mul(parser);
             if (divisor == 0)
                 return INFINITY;
             res /= divisor;
         }
+    }
+    return res;
+}
+
+DATA_TYPE calcy_parser_implicit_mul(calcy_parser *parser)
+{
+    if (!parser)
+        return INFINITY;
+    DATA_TYPE res = calcy_parser_expo(parser);
+    while (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_LEFT_PAREN || parser->M_tokens[parser->M_current_parser].M_type == TOKEN_ALPHA)
+    {
+        res *= calcy_parser_expo(parser);
     }
     return res;
 }

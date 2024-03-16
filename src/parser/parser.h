@@ -33,6 +33,7 @@ bool calcy_parser_init(calcy_parser *parser, const calcy_token *toks_start);
 DATA_TYPE calcy_parser_perform(calcy_parser *parser);
 DATA_TYPE calcy_parser_expr(calcy_parser *parser);
 DATA_TYPE calcy_parser_term(calcy_parser *parser);
+DATA_TYPE calcy_parser_implicit_mul(calcy_parser *parser);
 DATA_TYPE calcy_parser_expo(calcy_parser *parser);
 DATA_TYPE calcy_parser_functions(calcy_parser *parser);
 DATA_TYPE calcy_parser_brackets(calcy_parser *parser);
