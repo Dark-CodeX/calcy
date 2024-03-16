@@ -26,6 +26,7 @@ bool calcy_lexer_scan_tokens(calcy_lexer *lexer);
 bool calcy_lexer_has_reached_eof(const calcy_lexer *lexer);
 bool calcy_lexer_scan_numbers(calcy_lexer *lexer);
 bool calcy_lexer_scan_alpha(calcy_lexer *lexer);
+void calcy_lexer_neg(calcy_lexer *lexer);
 void calcy_lexer_free(calcy_lexer *lexer);
 
 #endif
