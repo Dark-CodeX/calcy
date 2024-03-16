@@ -28,6 +28,9 @@ int main(int argc, char **argv)
         calcy_lexer_assign_source(lexer, expr);
         calcy_lexer_scan_tokens(lexer);
 
+        // resolving any negative number
+        calcy_lexer_neg(lexer);
+
         calcy_parser *parser = calloc(1, sizeof(calcy_parser));
         if (!calcy_parser_init(parser, lexer->M_tokens))
         {
