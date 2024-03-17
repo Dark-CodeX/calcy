@@ -3,10 +3,11 @@
 
 #include <math.h>
 #include <stddef.h>
+#include <complex.h>
 
 #ifndef LDTYPE_DEF
 #define LDTYPE_DEF
-typedef long double DATA_TYPE;
+typedef complex long double DATA_TYPE;
 #endif
 
 DATA_TYPE factorial(DATA_TYPE num);

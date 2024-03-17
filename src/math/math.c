@@ -2,12 +2,13 @@
 
 DATA_TYPE factorial(DATA_TYPE num)
 {
-    if (num == 1 || num == 0)
+    long double NUM = creall(num);
+    if (NUM == 1 || NUM == 0)
         return 1;
-    else if (num == NAN || num == INFINITY)
+    else if (NUM == NAN || NUM == INFINITY)
         return INFINITY;
     DATA_TYPE result = 1;
-    for (size_t i = 1; i <= num; i++)
+    for (size_t i = 1; i <= NUM; i++)
         result *= i;
     return result;
 }

@@ -40,7 +40,7 @@ int main(int argc, char **argv)
             return EXIT_FAILURE;
         }
         DATA_TYPE result = calcy_parser_perform(parser);
-        printf("%.16Lg\n", result);
+        calcy_print(result);
         free(parser);
         calcy_lexer_free(lexer);
     }
