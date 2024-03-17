@@ -17,14 +17,9 @@ typedef struct parser
     size_t M_current_parser;
 } calcy_parser;
 
-#ifndef LDTYPE_DEF
-#define LDTYPE_DEF
-typedef long double DATA_TYPE;
-#endif
-
 #ifndef CONST_TOLERANCE_LEVEL
 #define CONST_TOLERANCE_LEVEL
-static const DATA_TYPE TOLERANCE_LEVEL = 1e-10;
+static const long double TOLERANCE_LEVEL = 1e-10;
 #endif
 
 static DATA_TYPE RESULT_STATIC;
@@ -38,5 +33,7 @@ DATA_TYPE calcy_parser_expo(calcy_parser *parser);
 DATA_TYPE calcy_parser_functions(calcy_parser *parser);
 DATA_TYPE calcy_parser_brackets(calcy_parser *parser);
 DATA_TYPE calcy_parser_factor(calcy_parser *parser);
+
+int calcy_print(DATA_TYPE result);
 
 #endif
