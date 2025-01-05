@@ -85,8 +85,16 @@ bool calcy_lexer_scan_tokens(calcy_lexer *lexer)
             break;
 
         case '*':
-            calcy_lexer_add_token(lexer, &ch, 1, TOKEN_OPERATOR_MULTIPLY, lexer->M_current_lexer, lexer->M_current_lexer + 1);
-            lexer->M_current_lexer++;
+            if (lexer->M_src[lexer->M_current_lexer + 1] == '*') // expo
+            {
+                calcy_lexer_add_token(lexer, &ch, 1, TOKEN_OPERATOR_EXPONENTIAL, lexer->M_current_lexer, lexer->M_current_lexer + 2);
+                lexer->M_current_lexer += 2;
+            }
+            else
+            {
+                calcy_lexer_add_token(lexer, &ch, 1, TOKEN_OPERATOR_MULTIPLY, lexer->M_current_lexer, lexer->M_current_lexer + 1);
+                lexer->M_current_lexer++;
+            }
             break;
 
         case '/':
