@@ -191,31 +191,10 @@ void calcy_lexer_neg(calcy_lexer *lexer)
     {
         if (lexer->M_tokens[i].M_type == TOKEN_OPERATOR_SUBSTRACT)
         {
-            if (i != 0)
-            {
-                if (lexer->M_tokens[i - 1].M_type != TOKEN_NUMBER)
-                {
-                    // its a neg number sign
-                    if (lexer->M_tokens[++i].M_type == TOKEN_NUMBER)
-                    {
-                        lexer->M_tokens[i - 1].M_type = TOKEN_NUMBER;
-                        lexer->M_tokens[i - 1].M_lexeme = realloc(lexer->M_tokens[i - 1].M_lexeme, 1 + strlen(lexer->M_tokens[i].M_lexeme) + 1);
-                        strcat(lexer->M_tokens[i - 1].M_lexeme, lexer->M_tokens[i].M_lexeme);
-
-                        // now remove token at 'i' and
-                        free(lexer->M_tokens[i].M_lexeme);
-                        for (size_t x = i; x < lexer->M_token_len - 1; x++)
-                        {
-                            lexer->M_tokens[x].M_start = lexer->M_tokens[x + 1].M_start;
-                            lexer->M_tokens[x].M_end = lexer->M_tokens[x + 1].M_end;
-                            lexer->M_tokens[x].M_type = lexer->M_tokens[x + 1].M_type;
-                            lexer->M_tokens[x].M_lexeme = lexer->M_tokens[x + 1].M_lexeme;
-                        }
-                        lexer->M_token_len--;
-                    }
-                }
-            }
-            else
+            bool merge_token = true;
+            if (i != 0 && (lexer->M_tokens[i - 1].M_type == TOKEN_NUMBER || lexer->M_tokens[i - 1].M_type == TOKEN_RIGHT_PAREN))
+                merge_token = false;
+            if (merge_token)
             {
                 if (lexer->M_tokens[++i].M_type == TOKEN_NUMBER)
                 {
