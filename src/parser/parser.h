@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdio.h>
 
 typedef struct parser
@@ -23,6 +24,8 @@ static const long double TOLERANCE_LEVEL = 1e-10;
 #endif
 
 static DATA_TYPE RESULT_STATIC;
+
+char *str_lwr(char *__s);
 
 bool calcy_parser_init(calcy_parser *parser, const calcy_token *toks_start);
 DATA_TYPE calcy_parser_perform(calcy_parser *parser);
