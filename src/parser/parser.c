@@ -113,7 +113,7 @@ DATA_TYPE calcy_parser_functions(calcy_parser *parser)
     {
         while (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_ALPHA)
         {
-            const char *function_name = parser->M_tokens[parser->M_current_parser++].M_lexeme;
+            char *function_name = parser->M_tokens[parser->M_current_parser++].M_lexeme;
             // convert function_name to lowercase
             function_name = str_lwr(function_name);
             if (strcmp(function_name, "sin") == 0)
