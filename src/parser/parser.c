@@ -1,5 +1,13 @@
 #include "./parser.h"
 
+char *str_lwr(char *__s)
+{
+    if (!__s)
+        return NULL;
+    for (char *tmp = __s; *tmp; tmp++)
+        *tmp = tolower(*tmp);
+}
+
 bool calcy_parser_init(calcy_parser *parser, const calcy_token *toks_start)
 {
     if (!parser)
@@ -106,6 +114,8 @@ DATA_TYPE calcy_parser_functions(calcy_parser *parser)
         while (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_ALPHA)
         {
             const char *function_name = parser->M_tokens[parser->M_current_parser++].M_lexeme;
+            // convert function_name to lowercase
+            function_name = str_lwr(function_name);
             if (strcmp(function_name, "sin") == 0)
             {
                 DATA_TYPE ret_val = csinl(calcy_parser_brackets(parser));
@@ -139,15 +149,15 @@ DATA_TYPE calcy_parser_functions(calcy_parser *parser)
                 DATA_TYPE ret_val = 1 / (cabsl(x) > TOLERANCE_LEVEL ? x : 0);
                 return (cabsl(ret_val) > TOLERANCE_LEVEL ? ret_val : 0);
             }
-            else if (strcmp(function_name, "ans") == 0 || strcmp(function_name, "ANS") == 0)
+            else if (strcmp(function_name, "ans") == 0)
             {
                 return RESULT_STATIC;
             }
-            else if (strcmp(function_name, "inf") == 0 || strcmp(function_name, "INF") == 0)
+            else if (strcmp(function_name, "inf") == 0)
             {
                 return INFINITY;
             }
-            else if (strcmp(function_name, "nan") == 0 || strcmp(function_name, "nan") == 0)
+            else if (strcmp(function_name, "nan") == 0)
             {
                 return NAN;
             }
@@ -155,11 +165,11 @@ DATA_TYPE calcy_parser_functions(calcy_parser *parser)
             {
                 return M_E;
             }
-            else if (strcmp(function_name, "i") == 0 || strcmp(function_name, "I") == 0)
+            else if (strcmp(function_name, "i") == 0)
             {
                 return I;
             }
-            else if (strcmp(function_name, "pi") == 0 || strcmp(function_name, "PI") == 0)
+            else if (strcmp(function_name, "pi") == 0)
             {
                 return M_PI;
             }
