@@ -191,11 +191,7 @@ DATA_TYPE calcy_parser_brackets(calcy_parser *parser)
     if (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_LEFT_PAREN)
     {
         parser->M_current_parser++;
-        calcy_parser ptemp;
-        ptemp.M_current_parser = 0;
-        ptemp.M_tokens = parser->M_tokens + parser->M_current_parser;
-        DATA_TYPE result = calcy_parser_perform(&ptemp);
-        parser->M_current_parser += ptemp.M_current_parser;
+        DATA_TYPE result = calcy_parser_perform(parser);
         if (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_RIGHT_PAREN)
             parser->M_current_parser++;
         return result;
