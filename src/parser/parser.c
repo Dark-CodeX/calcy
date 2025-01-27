@@ -6,6 +6,7 @@ char *str_lwr(char *__s)
         return NULL;
     for (char *tmp = __s; *tmp; tmp++)
         *tmp = tolower(*tmp);
+    return __s;
 }
 
 bool calcy_parser_init(calcy_parser *parser, const calcy_token *toks_start)
