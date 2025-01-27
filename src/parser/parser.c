@@ -72,17 +72,29 @@ DATA_TYPE calcy_parser_expo(calcy_parser *parser)
 {
     if (!parser)
         return INFINITY;
-    DATA_TYPE res = calcy_parser_functions(parser);
+    DATA_TYPE res = calcy_parser_unary_operators(parser);
     while (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_OPERATOR_EXPONENTIAL)
     {
         parser->M_current_parser++;
-        DATA_TYPE __power_expo = calcy_parser_functions(parser);
+        DATA_TYPE __power_expo = calcy_parser_unary_operators(parser);
         if (res == (size_t)res && __power_expo == (size_t)__power_expo)
             res = fast_pow(res, __power_expo);
         else
             res = cpowl(res, __power_expo);
     }
     return res;
+}
+
+DATA_TYPE calcy_parser_unary_operators(calcy_parser *parser)
+{
+    if (!parser)
+        return INFINITY;
+    if (parser->M_tokens[parser->M_current_parser].M_type == TOKEN_OPERATOR_SUBSTRACT || parser->M_tokens[parser->M_current_parser].M_type == TOKEN_OPERATOR_ADD)
+    {
+        calcy_token_type opr = parser->M_tokens[parser->M_current_parser++].M_type;
+        return opr == TOKEN_OPERATOR_SUBSTRACT ? calcy_parser_unary_operators(parser) * (DATA_TYPE)-1 : calcy_parser_unary_operators(parser);
+    }
+    return calcy_parser_functions(parser);
 }
 
 DATA_TYPE calcy_parser_functions(calcy_parser *parser)
